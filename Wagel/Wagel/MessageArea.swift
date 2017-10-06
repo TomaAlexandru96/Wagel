@@ -9,7 +9,15 @@
 import UIKit
 
 class Form: NSObject {
-    var petsNumber: Int = 0
+    private var petsNumber: Int = 0
+    
+    func fillInPetsNumber(input: String) -> Bool {
+        guard let nr = Int(input) else {
+            return false
+        }
+        petsNumber = nr
+        return true
+    }
 }
 
 class MessageArea: UICollectionViewController {
@@ -19,9 +27,11 @@ class MessageArea: UICollectionViewController {
     var job: Thread?
     var form: Form = Form()
     var input: String = ""
+    var waitingType: AnyClass?
     let messageSema: DispatchSemaphore = DispatchSemaphore(value: 1)
-    let formSema: DispatchSemaphore = DispatchSemaphore(value: 1)
     let inputSema: DispatchSemaphore = DispatchSemaphore(value: 0)
+    let WAIT_TIME_SHORT: UInt32 = 500000
+    let WAIT_TIME_LONG: UInt32 = 1000000
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,34 +39,36 @@ class MessageArea: UICollectionViewController {
     }
     
     func resetForm(withReset: Bool) {
+        job?.cancel()
         messages = []
         nrOfMessages = 0
         self.setupForm(withReset: withReset)
     }
     
     func setupForm(withReset: Bool) {
-        job?.cancel()
         job = Thread() {
-            self.formSema.wait()
             self.form = Form()
             if withReset {
                 self.sendMessage(message: (.AI, "Ok let's start again!"))
-                sleep(1)
+                usleep(self.WAIT_TIME_LONG)
             }
             self.sendMessage(message: (.AI, "Hi there! Let’s get you a price as quickly as we can… You only need to answer 7 quick questions about your pet."))
-            sleep(1)
+            usleep(self.WAIT_TIME_LONG)
             self.sendMessage(message: (.AI, "How many pets are you looking to insure?"))
             
-            self.form.petsNumber = Int(self.awaitInput())!
-            sleep(1)
+            while !self.form.fillInPetsNumber(input: self.awaitInput()) {
+                usleep(self.WAIT_TIME_SHORT)
+                self.sendMessage(message: (.AI, "I am not sure I understand can you please answer again the previous question."))
+            }
+            
+            usleep(self.WAIT_TIME_SHORT)
             self.sendMessage(message: (.AI, "Cool!"))
-            self.formSema.signal()
             self.job = nil
         }
         job?.start()
     }
     
-    func awaitInput() -> String {
+    func awaitInput() -> String{
         inputSema.wait()
         return input
     }

@@ -46,6 +46,14 @@ class MainView: UIViewController, UITextFieldDelegate {
         textInput.resignFirstResponder()
     }
     
+    @IBAction func pressedSend(_ sender: UIButton) {
+        if let input = textInput.text, input != "" {
+            messageArea?.sendMessage(message: (.Me, input))
+            textInput.resignFirstResponder()
+            textInput.text = ""
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let dest = segue.destination as? MessageArea, segue.identifier == "MessagesSegue" {
             messageArea = dest
@@ -53,8 +61,8 @@ class MainView: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if let textInput = textInput.text, textInput != "" {
-            messageArea?.sendMessage(message: (.Me, textInput))
+        if let input = textInput.text, input != "" {
+            messageArea?.sendMessage(message: (.Me, input))
             textField.resignFirstResponder()
             textField.text = ""
             return true
