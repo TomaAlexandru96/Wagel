@@ -18,21 +18,7 @@ class MainView: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardChange),
                                                name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShow),
-                                               name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHide),
-                                               name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         textInput.delegate = self
-    }
-    
-    @objc func keyboardHide(notification: NSNotification) {
-        let keyboardSize = (notification.userInfo![UIKeyboardFrameBeginUserInfoKey] as! CGRect)
-        //rescaleView(movement: keyboardSize.height)
-    }
-    
-    @objc func keyboardShow(notification: NSNotification) {
-        let keyboardSize = (notification.userInfo![UIKeyboardFrameBeginUserInfoKey] as! CGRect)
-        //rescaleView(movement: -keyboardSize.height)
     }
     
     @objc func keyboardChange(notification: NSNotification) {
