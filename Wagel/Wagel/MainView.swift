@@ -16,23 +16,33 @@ class MainView: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardUp),
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardChange),
+                                               name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShow),
                                                name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDown),
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHide),
                                                name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         textInput.delegate = self
     }
     
-    @objc func keyboardUp(notification: NSNotification) {
+    @objc func keyboardHide(notification: NSNotification) {
         let keyboardSize = (notification.userInfo![UIKeyboardFrameBeginUserInfoKey] as! CGRect)
-        animateTextField(movement: -keyboardSize.height,
-                         time: notification.userInfo![UIKeyboardAnimationDurationUserInfoKey] as! TimeInterval)
+        view.frame.origin.y += keyboardSize.height
     }
     
-    @objc func keyboardDown(notification: NSNotification) {
+    @objc func keyboardShow(notification: NSNotification) {
         let keyboardSize = (notification.userInfo![UIKeyboardFrameBeginUserInfoKey] as! CGRect)
-        animateTextField(movement: keyboardSize.height,
-                         time: notification.userInfo![UIKeyboardAnimationDurationUserInfoKey] as! TimeInterval)
+        view.frame.origin.y -= keyboardSize.height
+    }
+    
+    @objc func keyboardChange(notification: NSNotification) {
+        /*let keyboardSize = (notification.userInfo![UIKeyboardFrameBeginUserInfoKey] as! CGRect)
+        
+        if view.frame.origin.y < keyboardSize.maxY {
+            view.frame.origin.y -= keyboardSize.height
+        } else {
+            view.frame.origin.y += keyboardSize.height
+        }*/
     }
     
     func animateTextField(movement: CGFloat, time: TimeInterval) {
@@ -52,13 +62,10 @@ class MainView: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let textInput = textInput.text, textInput != "" {
             messageArea?.sendMessage(message: (.Me, textInput))
+            textField.resignFirstResponder()
+            textField.text = ""
+            return true
         }
-        textInput.text = ""
-        return true
-    }
-    
-    func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        view.endEditing(true)
-        return true;
+        return false
     }
 }
