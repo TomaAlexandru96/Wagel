@@ -88,3 +88,21 @@ extension MessageArea {
     
 }
 
+@IBDesignable
+class MessageAreaLayout: UICollectionViewFlowLayout {
+    
+    override init() {
+        super.init()
+        setup()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+    
+    func setup() {
+        estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize
+    }
+}
+

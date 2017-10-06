@@ -12,10 +12,11 @@ import UIKit
 typealias Message = (from: MessageFrom, content: String)
 
 class MessageCell: UICollectionViewCell {
-    @IBOutlet weak var messageLabel: UILabel!
+    
+    @IBOutlet weak var textLabel: UITextView!
     
     func setupMessage(message: Message) {
-        messageLabel.text = message.content
+        textLabel.text = message.content
     }
     
 }

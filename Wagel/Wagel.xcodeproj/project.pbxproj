@@ -10,11 +10,11 @@
 		2212FE731F86AFE200641168 /* MessageArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2212FE721F86AFE200641168 /* MessageArea.swift */; };
 		2212FE751F86BCB400641168 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2212FE741F86BCB400641168 /* MessageCell.swift */; };
 		225E7EF91F85434F00DB965F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225E7EF81F85434F00DB965F /* AppDelegate.swift */; };
-		225E7EFE1F85434F00DB965F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 225E7EFC1F85434F00DB965F /* Main.storyboard */; };
 		225E7F001F85434F00DB965F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 225E7EFF1F85434F00DB965F /* Assets.xcassets */; };
 		225E7F031F85434F00DB965F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 225E7F011F85434F00DB965F /* LaunchScreen.storyboard */; };
 		225E7F0E1F85434F00DB965F /* WagelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225E7F0D1F85434F00DB965F /* WagelTests.swift */; };
 		225E7F191F85434F00DB965F /* WagelUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225E7F181F85434F00DB965F /* WagelUITests.swift */; };
+		22AD4DD71F8717E100EDBD2A /* Form.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22AD4DD61F8717E100EDBD2A /* Form.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,7 +39,6 @@
 		2212FE741F86BCB400641168 /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		225E7EF51F85434F00DB965F /* Wagel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wagel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		225E7EF81F85434F00DB965F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		225E7EFD1F85434F00DB965F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		225E7EFF1F85434F00DB965F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		225E7F021F85434F00DB965F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		225E7F041F85434F00DB965F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -49,6 +48,7 @@
 		225E7F141F85434F00DB965F /* WagelUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WagelUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		225E7F181F85434F00DB965F /* WagelUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WagelUITests.swift; sourceTree = "<group>"; };
 		225E7F1A1F85434F00DB965F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		22AD4DD61F8717E100EDBD2A /* Form.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Form.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,7 +102,7 @@
 				225E7EF81F85434F00DB965F /* AppDelegate.swift */,
 				2212FE721F86AFE200641168 /* MessageArea.swift */,
 				2212FE741F86BCB400641168 /* MessageCell.swift */,
-				225E7EFC1F85434F00DB965F /* Main.storyboard */,
+				22AD4DD61F8717E100EDBD2A /* Form.storyboard */,
 				225E7F011F85434F00DB965F /* LaunchScreen.storyboard */,
 				225E7EFF1F85434F00DB965F /* Assets.xcassets */,
 				225E7F041F85434F00DB965F /* Info.plist */,
@@ -235,9 +235,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22AD4DD71F8717E100EDBD2A /* Form.storyboard in Resources */,
 				225E7F031F85434F00DB965F /* LaunchScreen.storyboard in Resources */,
 				225E7F001F85434F00DB965F /* Assets.xcassets in Resources */,
-				225E7EFE1F85434F00DB965F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,14 +300,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		225E7EFC1F85434F00DB965F /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				225E7EFD1F85434F00DB965F /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		225E7F011F85434F00DB965F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
