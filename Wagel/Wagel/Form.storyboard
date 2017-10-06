@@ -110,7 +110,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="abn-6f-vBc" secondAttribute="trailing" constant="5" id="MVs-nG-3r3"/>
-                                                <constraint firstItem="abn-6f-vBc" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="8nx-F4-ZOm" secondAttribute="bottom" id="Rk6-i4-q2z"/>
+                                                <constraint firstItem="abn-6f-vBc" firstAttribute="bottom" secondItem="8nx-F4-ZOm" secondAttribute="bottom" id="Rk6-i4-q2z"/>
                                                 <constraint firstItem="abn-6f-vBc" firstAttribute="top" secondItem="8nx-F4-ZOm" secondAttribute="top" id="ugd-XL-FXc"/>
                                             </constraints>
                                         </view>
@@ -168,7 +168,7 @@
                                 <rect key="frame" x="0.0" y="617" width="375" height="50"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="ASCIICapableNumberPad" returnKeyType="send"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="send"/>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

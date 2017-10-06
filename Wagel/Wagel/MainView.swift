@@ -27,12 +27,18 @@ class MainView: UIViewController, UITextFieldDelegate {
     
     @objc func keyboardHide(notification: NSNotification) {
         let keyboardSize = (notification.userInfo![UIKeyboardFrameBeginUserInfoKey] as! CGRect)
-        view.frame.origin.y += keyboardSize.height
+        rescaleView(movement: keyboardSize.height)
     }
     
     @objc func keyboardShow(notification: NSNotification) {
         let keyboardSize = (notification.userInfo![UIKeyboardFrameBeginUserInfoKey] as! CGRect)
-        view.frame.origin.y -= keyboardSize.height
+        rescaleView(movement: -keyboardSize.height)
+    }
+    
+    func rescaleView(movement: CGFloat) {
+        view.frame.origin.y += movement
+        messageArea?.view.frame.origin.y -= movement
+        messageArea?.view.frame.size.height += movement
     }
     
     @objc func keyboardChange(notification: NSNotification) {
@@ -51,6 +57,7 @@ class MainView: UIViewController, UITextFieldDelegate {
     
     @IBAction func pressedRefresh(_ sender: UIBarButtonItem) {
         messageArea?.resetForm(withReset: true)
+        textInput.resignFirstResponder()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

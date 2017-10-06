@@ -22,13 +22,13 @@ class MessageArea: UICollectionViewController {
     }
     
     func resetForm(withReset: Bool) {
-        job?.cancel()
         messages = []
         nrOfMessages = 0
         self.setupForm(withReset: withReset)
     }
     
     func setupForm(withReset: Bool) {
+        job?.cancel()
         job = Thread() {
             if (withReset) {
                 self.sendMessage(message: (.AI, "Ok let's start again!"))
