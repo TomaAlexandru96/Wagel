@@ -19,6 +19,7 @@ class MainView: UIViewController, UITextFieldDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardChange),
                                                name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
         textInput.delegate = self
+        messageArea?.delegate = self
     }
     
     @objc func keyboardChange(notification: NSNotification) {
@@ -70,4 +71,10 @@ class MainView: UIViewController, UITextFieldDelegate {
         return false
     }
     
+}
+
+extension MainView: MessageAreaDelegate {
+    func changeKeyboard(type: UIKeyboardType) {
+        textInput.keyboardType = type
+    }
 }

@@ -20,6 +20,10 @@ class Form: NSObject {
     }
 }
 
+protocol MessageAreaDelegate {
+    func changeKeyboard(type: UIKeyboardType)
+}
+
 class MessageArea: UICollectionViewController {
     
     var nrOfMessages: Int = 0
@@ -28,6 +32,7 @@ class MessageArea: UICollectionViewController {
     var form: Form = Form()
     var input: String = ""
     var waitingType: AnyClass?
+    var delegate: MessageAreaDelegate?
     let messageSema: DispatchSemaphore = DispatchSemaphore(value: 1)
     let inputSema: DispatchSemaphore = DispatchSemaphore(value: 0)
     let WAIT_TIME_SHORT: UInt32 = 500000
@@ -55,6 +60,8 @@ class MessageArea: UICollectionViewController {
             self.sendMessage(message: (.AI, "Hi there! Let’s get you a price as quickly as we can… You only need to answer 7 quick questions about your pet."))
             usleep(self.WAIT_TIME_LONG)
             self.sendMessage(message: (.AI, "How many pets are you looking to insure?"))
+            
+            self.delegate?.changeKeyboard(type: UIKeyboardType.numberPad)
             
             while !self.form.fillInPetsNumber(input: self.awaitInput()) {
                 usleep(self.WAIT_TIME_SHORT)
