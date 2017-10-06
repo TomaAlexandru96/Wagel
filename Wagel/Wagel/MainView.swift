@@ -9,17 +9,31 @@
 import UIKit
 import Foundation
 
-class MainView: UIViewController, UITextFieldDelegate {
+class MainView: UIViewController {
+    
+    @IBOutlet weak var inputArea: UIView!
+    @IBOutlet weak var textInput: UITextField!
+    @IBOutlet weak var petNumberView: UIView!
+    @IBOutlet weak var petNumberPicker: UIPickerView!
     
     var messageArea: MessageArea?
-    @IBOutlet weak var textInput: UITextField!
+    var inputs: [UIView] = []
+    var petsPicker: PetsPicker!
+    var nameField: NameField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardChange),
                                                name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
-        textInput.delegate = self
+        
         messageArea?.delegate = self
+        petsPicker = (PetsPicker()).setView(main: self)
+        petNumberPicker.dataSource = petsPicker
+        petNumberPicker.delegate = petsPicker
+        nameField = (NameField()).setView(main: self)
+        textInput.delegate = nameField
+        inputs = [petNumberView, textInput]
+        resetViews()
     }
     
     @objc func keyboardChange(notification: NSNotification) {
@@ -42,33 +56,24 @@ class MainView: UIViewController, UITextFieldDelegate {
         UIView.animate(withDuration: time, animations: {self.textInput.frame.origin.y += movement}, completion: nil)
     }
     
-    @IBAction func pressedRefresh(_ sender: UIBarButtonItem) {
-        messageArea?.resetForm(withReset: true)
-        textInput.resignFirstResponder()
-    }
-    
-    @IBAction func pressedSend(_ sender: UIButton) {
-        if let input = textInput.text, input != "" {
-            messageArea?.sendMessage(message: (.Me, input))
-            textInput.resignFirstResponder()
-            textInput.text = ""
-        }
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let dest = segue.destination as? MessageArea, segue.identifier == "MessagesSegue" {
             messageArea = dest
         }
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if let input = textInput.text, input != "" {
-            messageArea?.sendMessage(message: (.Me, input))
-            textField.resignFirstResponder()
-            textField.text = ""
-            return true
+    fileprivate func resetViews() {
+        inputs.forEach {view in
+            DispatchQueue.main.async {
+                view.isHidden = true
+            }
         }
-        return false
+    }
+    
+    fileprivate func show(view: UIView) {
+        DispatchQueue.main.async {
+            view.isHidden = false
+        }
     }
     
 }
@@ -76,10 +81,13 @@ class MainView: UIViewController, UITextFieldDelegate {
 extension MainView: MessageAreaDelegate {
     
     func changeInputToPetsNumber() {
-        textInput.keyboardType = UIKeyboardType.numberPad
+        resetViews()
+        show(view: self.inputs[0])
     }
     
     func changeInputToPetName() {
+        resetViews()
+        show(view: self.inputs[1])
         textInput.keyboardType = UIKeyboardType.default
     }
     
@@ -96,6 +104,74 @@ extension MainView: MessageAreaDelegate {
     }
     
     func changeInputToAddress() {
+    }
+    
+}
+
+extension MainView {
+    
+    @IBAction func pressedRefresh(_ sender: UIBarButtonItem) {
+        messageArea?.resetForm(withReset: true)
+        view.resignFirstResponder()
+        resetViews()
+    }
+    
+    @IBAction func pressedSubmitInPicker(_ sender: UIButton) {
+        petsPicker.choose()
+    }
+    
+}
+
+class PetsPicker: NSObject, UIPickerViewDataSource, UIPickerViewDelegate {
+    
+    fileprivate var main: MainView!
+    private var selected: String = ""
+    
+    func choose() {
+        main.messageArea?.sendMessage(message: (.Me, selected))
+        main.resetViews()
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 3
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return "\(row + 1)"
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        selected = "\(row + 1)"
+    }
+    
+    func setView(main: MainView) -> PetsPicker {
+        self.main = main
+        return self
+    }
+    
+}
+
+class NameField: NSObject, UITextFieldDelegate {
+    
+    fileprivate var main: MainView!
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if let input = textField.text, input != "" {
+            main.messageArea?.sendMessage(message: (.Me, input))
+            textField.resignFirstResponder()
+            textField.text = ""
+            return true
+        }
+        return false
+    }
+    
+    func setView(main: MainView) -> NameField {
+        self.main = main
+        return self
     }
     
 }

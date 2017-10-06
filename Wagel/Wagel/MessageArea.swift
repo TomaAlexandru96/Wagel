@@ -56,7 +56,7 @@ class Form: NSObject {
     }
     
     func getFulDescription() -> String {
-        let desc = "petsNumber: \(petsNumber), petName: \(petName), petAnimal: \(petAnimal), petGender: \(petGender), petBreed: \(petBreed), petAddress: \(petAddress)"
+        let desc = "petsNumber: \(petsNumber), petName: \(petName), petAnimal: \(petAnimal), petAge: \(petAge), petGender: \(petGender), petBreed: \(petBreed), petAddress: \(petAddress)"
         
         return desc
     }
@@ -81,8 +81,8 @@ class MessageArea: UICollectionViewController {
     var input: String = ""
     var waitingType: AnyClass?
     var delegate: MessageAreaDelegate?
+    var inputSema: DispatchSemaphore = DispatchSemaphore(value: 0)
     let messageSema: DispatchSemaphore = DispatchSemaphore(value: 1)
-    let inputSema: DispatchSemaphore = DispatchSemaphore(value: 0)
     let WAIT_TIME_SHORT: UInt32 = 500000
     let WAIT_TIME_LONG: UInt32 = 1000000
     
@@ -95,6 +95,7 @@ class MessageArea: UICollectionViewController {
         job?.cancel()
         messages = []
         nrOfMessages = 0
+        inputSema = DispatchSemaphore(value: 0)
         self.setupForm(withReset: withReset)
     }
     
@@ -140,7 +141,7 @@ class MessageArea: UICollectionViewController {
             }
             
             usleep(self.WAIT_TIME_SHORT)
-            self.sendMessage(message: (.AI, "How old is Fluffy?"))
+            self.sendMessage(message: (.AI, "How old is \(self.form.petName)?"))
             self.delegate?.changeInputToAge()
             while !self.form.fillInPetAge(input: self.awaitInput()) {
                 usleep(self.WAIT_TIME_SHORT)
@@ -156,7 +157,7 @@ class MessageArea: UICollectionViewController {
             }
             
             usleep(self.WAIT_TIME_SHORT)
-            self.sendMessage(message: (.AI, "Lastly, where do you and Fluffy live?"))
+            self.sendMessage(message: (.AI, "Lastly, where do you and \(self.form.petName) live?"))
             self.delegate?.changeInputToAddress()
             while !self.form.fillInPetAddress(input: self.awaitInput()) {
                 usleep(self.WAIT_TIME_SHORT)
