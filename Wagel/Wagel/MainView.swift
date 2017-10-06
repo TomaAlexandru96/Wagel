@@ -74,7 +74,28 @@ class MainView: UIViewController, UITextFieldDelegate {
 }
 
 extension MainView: MessageAreaDelegate {
-    func changeKeyboard(type: UIKeyboardType) {
-        textInput.keyboardType = type
+    
+    func changeInputToPetsNumber() {
+        textInput.keyboardType = UIKeyboardType.numberPad
     }
+    
+    func changeInputToPetName() {
+        textInput.keyboardType = UIKeyboardType.default
+    }
+    
+    func changeInputToAnimal() {
+    }
+    
+    func changeInputToAge() {
+    }
+    
+    func changeInputToGender() {
+    }
+    
+    func changeInputToBreed() {
+    }
+    
+    func changeInputToAddress() {
+    }
+    
 }

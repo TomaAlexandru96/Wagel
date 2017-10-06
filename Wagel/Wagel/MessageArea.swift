@@ -9,7 +9,13 @@
 import UIKit
 
 class Form: NSObject {
-    private var petsNumber: Int = 0
+    fileprivate var petsNumber: Int = 0
+    fileprivate var petName: String = ""
+    fileprivate var petAnimal: String = ""
+    fileprivate var petGender: String = ""
+    fileprivate var petAge: String = ""
+    fileprivate var petBreed: String = ""
+    fileprivate var petAddress: String = ""
     
     func fillInPetsNumber(input: String) -> Bool {
         guard let nr = Int(input) else {
@@ -18,10 +24,52 @@ class Form: NSObject {
         petsNumber = nr
         return true
     }
+    
+    func fillInPetName(input: String) -> Bool {
+        petName = input
+        return true
+    }
+    
+    func fillInPetAnimal(input: String) -> Bool {
+        petAnimal = input
+        return true
+    }
+    
+    func fillInGender(input: String) -> Bool {
+        petGender = input
+        return true
+    }
+    
+    func fillInPetAge(input: String) -> Bool {
+        petAge = input
+        return true
+    }
+    
+    func fillInPetBreed(input: String) -> Bool {
+        petBreed = input
+        return true
+    }
+    
+    func fillInPetAddress(input: String) -> Bool {
+        petAddress = input
+        return true
+    }
+    
+    func getFulDescription() -> String {
+        let desc = "petsNumber: \(petsNumber), petName: \(petName), petAnimal: \(petAnimal), petGender: \(petGender), petBreed: \(petBreed), petAddress: \(petAddress)"
+        
+        return desc
+    }
 }
 
 protocol MessageAreaDelegate {
-    func changeKeyboard(type: UIKeyboardType)
+    func changeInputToPetsNumber()
+    func changeInputToPetName()
+    func changeInputToAnimal()
+    func changeInputToGender()
+    func changeInputToAge()
+    func changeInputToBreed()
+    func changeInputToAddress()
 }
 
 class MessageArea: UICollectionViewController {
@@ -58,18 +106,68 @@ class MessageArea: UICollectionViewController {
                 usleep(self.WAIT_TIME_LONG)
             }
             self.sendMessage(message: (.AI, "Hi there! Let’s get you a price as quickly as we can… You only need to answer 7 quick questions about your pet."))
+            
             usleep(self.WAIT_TIME_LONG)
             self.sendMessage(message: (.AI, "How many pets are you looking to insure?"))
-            
-            self.delegate?.changeKeyboard(type: UIKeyboardType.numberPad)
-            
+            self.delegate?.changeInputToPetsNumber()
             while !self.form.fillInPetsNumber(input: self.awaitInput()) {
                 usleep(self.WAIT_TIME_SHORT)
                 self.sendMessage(message: (.AI, "I am not sure I understand can you please answer again the previous question."))
             }
             
             usleep(self.WAIT_TIME_SHORT)
-            self.sendMessage(message: (.AI, "Cool!"))
+            self.sendMessage(message: (.AI, "Great, what is your pet’s name?"))
+            self.delegate?.changeInputToPetName()
+            while !self.form.fillInPetName(input: self.awaitInput()) {
+                usleep(self.WAIT_TIME_SHORT)
+                self.sendMessage(message: (.AI, "I am not sure I understand can you please answer again the previous question."))
+            }
+            
+            usleep(self.WAIT_TIME_SHORT)
+            self.sendMessage(message: (.AI, "Awesome name! is \(self.form.petName) a dog or a cat?"))
+            self.delegate?.changeInputToAnimal()
+            while !self.form.fillInPetAnimal(input: self.awaitInput()) {
+                usleep(self.WAIT_TIME_SHORT)
+                self.sendMessage(message: (.AI, "I am not sure I understand can you please answer again the previous question."))
+            }
+            
+            usleep(self.WAIT_TIME_SHORT)
+            self.sendMessage(message: (.AI, "And is \(self.form.petName) a girl or a boy?"))
+            self.delegate?.changeInputToGender()
+            while !self.form.fillInGender(input: self.awaitInput()) {
+                usleep(self.WAIT_TIME_SHORT)
+                self.sendMessage(message: (.AI, "I am not sure I understand can you please answer again the previous question."))
+            }
+            
+            usleep(self.WAIT_TIME_SHORT)
+            self.sendMessage(message: (.AI, "How old is Fluffy?"))
+            self.delegate?.changeInputToAge()
+            while !self.form.fillInPetAge(input: self.awaitInput()) {
+                usleep(self.WAIT_TIME_SHORT)
+                self.sendMessage(message: (.AI, "I am not sure I understand can you please answer again the previous question."))
+            }
+            
+            usleep(self.WAIT_TIME_SHORT)
+            self.sendMessage(message: (.AI, "What type of breed?"))
+            self.delegate?.changeInputToBreed()
+            while !self.form.fillInPetBreed(input: self.awaitInput()) {
+                usleep(self.WAIT_TIME_SHORT)
+                self.sendMessage(message: (.AI, "I am not sure I understand can you please answer again the previous question."))
+            }
+            
+            usleep(self.WAIT_TIME_SHORT)
+            self.sendMessage(message: (.AI, "Lastly, where do you and Fluffy live?"))
+            self.delegate?.changeInputToAddress()
+            while !self.form.fillInPetAddress(input: self.awaitInput()) {
+                usleep(self.WAIT_TIME_SHORT)
+                self.sendMessage(message: (.AI, "I am not sure I understand can you please answer again the previous question."))
+            }
+            
+            usleep(self.WAIT_TIME_SHORT)
+            self.sendMessage(message: (.AI, "Great, I’ve got everything I need. You ready to see your price now."))
+            usleep(self.WAIT_TIME_SHORT)
+            self.sendMessage(message: (.AI, "Pet: \(self.form.getFulDescription())"))
+            
             self.job = nil
         }
         job?.start()
