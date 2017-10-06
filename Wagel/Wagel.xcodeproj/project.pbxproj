@@ -15,6 +15,7 @@
 		225E7F0E1F85434F00DB965F /* WagelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225E7F0D1F85434F00DB965F /* WagelTests.swift */; };
 		225E7F191F85434F00DB965F /* WagelUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225E7F181F85434F00DB965F /* WagelUITests.swift */; };
 		22AD4DD71F8717E100EDBD2A /* Form.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22AD4DD61F8717E100EDBD2A /* Form.storyboard */; };
+		22DA30D11F872B1A00CCA5E5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DA30D01F872B1A00CCA5E5 /* MainView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		225E7F181F85434F00DB965F /* WagelUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WagelUITests.swift; sourceTree = "<group>"; };
 		225E7F1A1F85434F00DB965F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		22AD4DD61F8717E100EDBD2A /* Form.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Form.storyboard; sourceTree = "<group>"; };
+		22DA30D01F872B1A00CCA5E5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				225E7EF81F85434F00DB965F /* AppDelegate.swift */,
+				22DA30D01F872B1A00CCA5E5 /* MainView.swift */,
 				2212FE721F86AFE200641168 /* MessageArea.swift */,
 				2212FE741F86BCB400641168 /* MessageCell.swift */,
 				22AD4DD61F8717E100EDBD2A /* Form.storyboard */,
@@ -263,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				225E7EF91F85434F00DB965F /* AppDelegate.swift in Sources */,
+				22DA30D11F872B1A00CCA5E5 /* MainView.swift in Sources */,
 				2212FE731F86AFE200641168 /* MessageArea.swift in Sources */,
 				2212FE751F86BCB400641168 /* MessageCell.swift in Sources */,
 			);

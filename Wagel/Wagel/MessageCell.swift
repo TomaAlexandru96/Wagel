@@ -6,7 +6,6 @@
 //  Copyright © 2017 Alexandru Toma. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 typealias Message = (from: MessageFrom, content: String)

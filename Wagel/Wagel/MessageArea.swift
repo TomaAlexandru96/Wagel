@@ -6,7 +6,6 @@
 //  Copyright © 2017 Alexandru Toma. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class MessageArea: UICollectionViewController {
@@ -20,10 +19,6 @@ class MessageArea: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         resetForm(withReset: false)
-    }
-    
-    @IBAction func refreshPressed(_ sender: Any) {
-        resetForm(withReset: true)
     }
     
     func resetForm(withReset: Bool) {
@@ -55,12 +50,21 @@ enum MessageFrom {
 
 extension MessageArea {
     
+    func scrollToBottom() {
+        print(nrOfMessages)
+        collectionView?.scrollToItem(at: IndexPath(item: nrOfMessages - 1, section: 0),
+                                     at: UICollectionViewScrollPosition.top, animated: true)
+    }
+    
     func sendMessage(message: Message) {
         lock_acquire(messageLock, 0)
         nrOfMessages += 1
         messages.append(message)
-        DispatchQueue.main.async(execute: {self.collectionView?.reloadData()})
-        lock_release(messageLock, 0)
+        DispatchQueue.main.async(execute: {
+            self.collectionView?.reloadData()
+            self.scrollToBottom()
+            lock_release(self.messageLock, 0)
+        })
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
