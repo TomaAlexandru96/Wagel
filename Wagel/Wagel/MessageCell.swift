@@ -11,7 +11,7 @@ import UIKit
 
 typealias Message = (from: MessageFrom, content: String)
 
-class MessageCell: UITableViewCell {
+class MessageCell: UICollectionViewCell {
     @IBOutlet weak var messageLabel: UILabel!
     
     func setupMessage(message: Message) {

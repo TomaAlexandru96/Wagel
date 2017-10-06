@@ -9,15 +9,16 @@
 import Foundation
 import UIKit
 
-class MessageArea: UITableView {
+class MessageArea: UICollectionViewController {
     
     var nrOfMessages: Int = 0
     var messages: [Message] = []
+    var job: Thread?
+    let messageLock: lock_set_t = lock_set_t()
+    let formLock: lock_set_t = lock_set_t()
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        delegate = self
-        dataSource = self
+    override func viewDidLoad() {
+        super.viewDidLoad()
         resetForm(withReset: false)
     }
     
@@ -26,22 +27,25 @@ class MessageArea: UITableView {
     }
     
     func resetForm(withReset: Bool) {
+        job?.cancel()
         messages = []
         nrOfMessages = 0
-        let job = Thread(block: {self.setupForm(withReset: withReset)})
-        job.start()
+        self.setupForm(withReset: withReset)
     }
     
     func setupForm(withReset: Bool) {
-        if (withReset) {
-            sendMessage(message: (.AI, "Ok let's start again!"))
-            Thread.sleep(forTimeInterval: 1)
+        job = Thread() {
+            if (withReset) {
+                self.sendMessage(message: (.AI, "Ok let's start again!"))
+                sleep(1)
+            }
+            self.sendMessage(message: (.AI, "Hi there! Let’s get you a price as quickly as we can… You only need to answer 7 quick questions about your pet."))
+            sleep(1)
+            self.sendMessage(message: (.AI, "How many pets are you looking to insure?"))
+            self.job = nil
         }
-        sendMessage(message: (.AI, "Hi there! Let’s get you a price as quickly as we can… You only need to answer 7 quick questions about your pet."))
-        Thread.sleep(forTimeInterval: 1)
-        sendMessage(message: (.AI, "How many pets are you looking to insure?"))
+        job?.start()
     }
-    
 }
 
 enum MessageFrom {
@@ -49,22 +53,24 @@ enum MessageFrom {
     case AI
 }
 
-extension MessageArea: UITableViewDataSource, UITableViewDelegate {
+extension MessageArea {
     
     func sendMessage(message: Message) {
+        lock_acquire(messageLock, 0)
         nrOfMessages += 1
         messages.append(message)
-        DispatchQueue.main.async(execute: reloadData)
+        DispatchQueue.main.async(execute: {self.collectionView?.reloadData()})
+        lock_release(messageLock, 0)
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return nrOfMessages
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let otherCellID = "AIMessage"
-        let meCellID = "MeMEssage"
-    
+        let meCellID = "MeMessage"
+        
         var identifier = ""
         
         if messages[indexPath.item].from == .AI {
@@ -73,9 +79,7 @@ extension MessageArea: UITableViewDataSource, UITableViewDelegate {
             identifier = meCellID
         }
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! MessageCell? else {
-            fatalError("Cell with name \(meCellID) has not been found")
-        }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! MessageCell
         
         cell.setupMessage(message: messages[indexPath.item])
         
