@@ -158,7 +158,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yee-Vc-2qe">
+                            <containerView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yee-Vc-2qe">
                                 <rect key="frame" x="0.0" y="64" width="375" height="553"/>
                                 <connections>
                                     <segue destination="euf-Z2-pSI" kind="embed" identifier="MessagesSegue" id="uye-nI-61p"/>
@@ -166,6 +166,9 @@
                             </containerView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Write something" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9nQ-Js-WTY">
                                 <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="7sL-NM-QgK"/>
+                                </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="send"/>
@@ -180,7 +183,6 @@
                             <constraint firstItem="QTx-2H-qjR" firstAttribute="trailing" secondItem="9nQ-Js-WTY" secondAttribute="trailing" id="gL6-pT-Ts9"/>
                             <constraint firstItem="Yee-Vc-2qe" firstAttribute="top" secondItem="QTx-2H-qjR" secondAttribute="top" id="uUI-Dk-fcp"/>
                             <constraint firstItem="QTx-2H-qjR" firstAttribute="bottom" secondItem="Yee-Vc-2qe" secondAttribute="bottom" constant="50" id="x9l-GE-CZz"/>
-                            <constraint firstItem="QTx-2H-qjR" firstAttribute="bottom" secondItem="9nQ-Js-WTY" secondAttribute="bottom" id="zBz-HI-gKt"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="QTx-2H-qjR"/>
                     </view>
