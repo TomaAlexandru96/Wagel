@@ -34,6 +34,7 @@ class MainView: UIViewController, UITextFieldDelegate {
         view.frame.origin.y += movement
         messageArea?.view.frame.origin.y -= movement
         messageArea?.view.frame.size.height += movement
+        messageArea?.scrollToBottom()
     }
     
     func animateTextField(movement: CGFloat, time: TimeInterval) {
@@ -60,4 +61,5 @@ class MainView: UIViewController, UITextFieldDelegate {
         }
         return false
     }
+    
 }
