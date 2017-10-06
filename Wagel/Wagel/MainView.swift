@@ -20,6 +20,7 @@ class MainView: UIViewController {
     var inputs: [UIView] = []
     var petsPicker: PetsPicker!
     var nameField: NameField!
+    var catOrDogPicker: CatOrDogPicker!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,11 +28,7 @@ class MainView: UIViewController {
                                                name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
         
         messageArea?.delegate = self
-        petsPicker = (PetsPicker()).setView(main: self)
-        petNumberPicker.dataSource = petsPicker
-        petNumberPicker.delegate = petsPicker
-        nameField = (NameField()).setView(main: self)
-        textInput.delegate = nameField
+        
         inputs = [petNumberView, textInput]
         resetViews()
     }
@@ -83,15 +80,31 @@ extension MainView: MessageAreaDelegate {
     func changeInputToPetsNumber() {
         resetViews()
         show(view: self.inputs[0])
+        petsPicker = (PetsPicker()).setView(main: self)
+        DispatchQueue.main.async {
+            self.petNumberPicker.dataSource = self.petsPicker
+            self.petNumberPicker.delegate = self.petsPicker
+        }
     }
     
     func changeInputToPetName() {
         resetViews()
         show(view: self.inputs[1])
         textInput.keyboardType = UIKeyboardType.default
+        nameField = (NameField()).setView(main: self)
+        DispatchQueue.main.async {
+            self.textInput.delegate = self.nameField
+        }
     }
     
     func changeInputToAnimal() {
+        resetViews()
+        show(view: self.inputs[0])
+        catOrDogPicker = CatOrDogPicker()
+        DispatchQueue.main.async {
+            self.petNumberPicker.dataSource = self.catOrDogPicker
+            self.petNumberPicker.reloadAllComponents()
+        }
     }
     
     func changeInputToAge() {
@@ -125,7 +138,7 @@ extension MainView {
 class PetsPicker: NSObject, UIPickerViewDataSource, UIPickerViewDelegate {
     
     fileprivate var main: MainView!
-    private var selected: String = ""
+    private var selected: String = "1"
     
     func choose() {
         main.messageArea?.sendMessage(message: (.Me, selected))
@@ -172,6 +185,30 @@ class NameField: NSObject, UITextFieldDelegate {
     func setView(main: MainView) -> NameField {
         self.main = main
         return self
+    }
+    
+}
+
+class CatOrDogPicker: NSObject, UIPickerViewDataSource  {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 2
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        print("Here")
+        switch row {
+        case 0:
+            return "Cat"
+        case 1:
+            return "Dog"
+        default:
+            return ""
+        }
     }
     
 }
