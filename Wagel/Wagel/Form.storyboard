@@ -61,8 +61,9 @@
                                             <constraints>
                                                 <constraint firstItem="3RE-Kf-OiU" firstAttribute="top" secondItem="nv9-u6-1rR" secondAttribute="top" id="4Ls-RB-YLJ"/>
                                                 <constraint firstItem="BmZ-W9-VBh" firstAttribute="leading" secondItem="nv9-u6-1rR" secondAttribute="leading" constant="5" id="6t8-Ur-1f3"/>
+                                                <constraint firstItem="BmZ-W9-VBh" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="nv9-u6-1rR" secondAttribute="bottom" id="LWY-vI-qbO"/>
                                                 <constraint firstItem="BmZ-W9-VBh" firstAttribute="top" secondItem="nv9-u6-1rR" secondAttribute="top" constant="5" id="XFy-46-mh3"/>
-                                                <constraint firstAttribute="bottom" secondItem="3RE-Kf-OiU" secondAttribute="bottom" id="b8P-Mf-X2N"/>
+                                                <constraint firstItem="3RE-Kf-OiU" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="nv9-u6-1rR" secondAttribute="bottom" id="b8P-Mf-X2N"/>
                                                 <constraint firstItem="3RE-Kf-OiU" firstAttribute="leading" secondItem="BmZ-W9-VBh" secondAttribute="trailing" constant="5" id="xP9-tV-wTV"/>
                                             </constraints>
                                         </view>
